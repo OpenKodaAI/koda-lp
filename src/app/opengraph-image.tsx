@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Koda — Run AI agents like production software";
+export const alt = "Koda — Many agents. Many providers. One harness.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -40,7 +40,7 @@ export default function OpenGraphImage() {
 
         <div
           style={{
-            fontSize: "104px",
+            fontSize: "96px",
             color: "#0C0C0C",
             fontFamily: "serif",
             fontWeight: 500,
@@ -52,8 +52,9 @@ export default function OpenGraphImage() {
             alignItems: "center",
           }}
         >
-          <span>Run AI agents like</span>
-          <span>production software.</span>
+          <span>Many agents.</span>
+          <span>Many providers.</span>
+          <span>One harness.</span>
         </div>
 
         <div

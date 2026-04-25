@@ -76,9 +76,9 @@ export function Hero() {
           className="display-serif text-[#0C0C0C] text-[32px] sm:text-[42px] md:text-[54px] lg:text-[60px] leading-[1.02] font-medium tracking-[-0.025em]"
           style={{ textShadow: "0 1px 0 rgba(255,255,255,0.18)" }}
         >
-          Run AI agents like
+          Many agents. Many providers.
           <br />
-          production software.
+          One harness.
         </h1>
 
         <p className="mt-6 mx-auto max-w-[620px] text-[15px] md:text-[16px] leading-[1.55] text-[#1f1c17]">

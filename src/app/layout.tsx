@@ -28,7 +28,7 @@ const jetbrains = JetBrains_Mono({
 
 const SITE_URL = "https://koda.dev";
 const SITE_NAME = "Koda";
-const SITE_TITLE = "Koda — Run AI agents like production software";
+const SITE_TITLE = "Koda — Many agents. Many providers. One harness.";
 const SITE_DESCRIPTION =
   "Koda is the open-source harness for multi-agent, multi-provider AI systems. A control plane you actually use, durable state by default, and every runtime action inspectable from day one.";
 
