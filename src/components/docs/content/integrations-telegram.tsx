@@ -6,10 +6,10 @@ export function IntegrationsTelegram() {
   return (
     <>
       <p>
-        Telegram is the first messenger interface Koda ships with. It pairs
-        cleanly with the runtime — users DM an agent bot, the handler
-        normalises the message into a runtime request, the task executes,
-        and the reply streams back in the same chat.
+        Telegram is one of Koda's implemented channel adapters. It pairs
+        cleanly with the runtime: users DM an agent bot, the handler
+        normalises the message into a runtime request, the task executes, and
+        the reply returns in the same chat.
       </p>
 
       <h2 id="what-you-get">What you get</h2>

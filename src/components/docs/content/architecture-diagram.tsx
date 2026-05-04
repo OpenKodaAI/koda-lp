@@ -39,7 +39,7 @@ const NODES: Node[] = [
   { id: "security", label: "security", sub: ":50065 · validate · redact", x: 540, y: 40, w: 210, h: 56, color: "#df8794", kind: "grpc" },
 
   // External providers
-  { id: "providers", label: "External providers", sub: "Claude · GPT · Gemini · Ollama", x: 790, y: 120, w: 220, h: 56, color: "#8f6ccf", kind: "external" },
+  { id: "providers", label: "External providers", sub: "Anthropic · OpenAI · Gemini · Ollama · MCP", x: 790, y: 120, w: 220, h: 56, color: "#8f6ccf", kind: "external" },
 
   // Storage
   { id: "postgres", label: "Postgres", sub: "durable state + pgvector", x: 790, y: 260, w: 220, h: 56, color: "#5da9a3", kind: "store" },

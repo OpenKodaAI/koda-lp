@@ -50,8 +50,9 @@ export function GettingStartedIntroduction() {
         </li>
         <li>
           <strong>Inspectable end-to-end.</strong> Every provider response, every
-          tool call, every memory write is recorded and reachable through OpenAPI
-          surfaces. There is no hidden state behind the prompt.
+          tool call, every memory write is recorded and reachable through the
+          dashboard, control-plane OpenAPI, or runtime inspection routes. There
+          is no hidden state behind the prompt.
         </li>
         <li>
           <strong>Harness, not monolith.</strong> Koda does not force a single
@@ -99,8 +100,8 @@ export function GettingStartedIntroduction() {
         </li>
         <li>
           A <strong>Python control-plane + runtime service</strong> on port{" "}
-          <code>8090</code>, exposing OpenAPI-documented routes for every surface
-          the dashboard uses.
+          <code>8090</code>, exposing the maintained control-plane OpenAPI,
+          app health, setup bridge, and runtime operational routes.
         </li>
         <li>
           <strong>Postgres</strong> for durable state — one database, multiple

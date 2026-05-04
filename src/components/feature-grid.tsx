@@ -1,463 +1,467 @@
-const topRow = [
-  {
-    title: "Control-plane-first configuration",
-    body:
-      "Configure providers, agents, secrets, and access through the dashboard. No hand-maintained env files. First-run setup happens where operators already work.",
-    mock: "config" as const,
-  },
-  {
-    title: "Multi-agent, multi-provider orchestration",
-    body:
-      "Claude, Codex, Gemini, Ollama — each agent picks the models and tools that fit its role. Isolated runtime state, parallel by default.",
-    mock: "providers" as const,
-    featured: true,
-  },
-  {
-    title: "Knowledge & memory grounding",
-    body:
-      "Retrieval, episodic memory, evidence sourcing, and durable context assembly — so every agent acts on what's actually true.",
-    mock: "memory" as const,
-  },
+import { ArrowRight, Check, Database, GitFork, Search, Sparkles } from "lucide-react";
+import { AgentGlyph, type AgentState } from "@/components/ui/agent-glyph";
+import { BentoGridShowcase } from "@/components/ui/bento-product-features";
+
+/* eslint-disable @next/next/no-img-element */
+
+const DockerIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+    <path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 0 0 .186-.186V3.574a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.186.186 0 0 0-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.185-.186h-2.12a.185.185 0 0 0-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 0 0-.75.748 11.376 11.376 0 0 0 .692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137a23.797 23.797 0 0 0 4.27-.385 17.866 17.866 0 0 0 5.583-2.014c1.36-.762 2.586-1.74 3.554-2.857a13.49 13.49 0 0 0 2.358-3.99c.07-.207.133-.418.187-.633a3.34 3.34 0 0 0 .64-.32 4.41 4.41 0 0 0 .708-.555l.198-.197z" />
+  </svg>
+);
+
+type Channel = {
+  label: string;
+  src: string;
+};
+
+const channels: Channel[] = [
+  { label: "Telegram", src: "/channels/telegram.svg" },
+  { label: "WhatsApp", src: "/channels/whatsapp.svg" },
+  { label: "Discord", src: "/channels/discord.svg" },
+  { label: "Slack", src: "https://www.vectorlogo.zone/logos/slack/slack-icon.svg" },
+  { label: "Microsoft Teams", src: "/channels/teams.svg" },
+  { label: "LINE", src: "/channels/line.svg" },
+  { label: "Messenger", src: "/channels/messenger.svg" },
+  { label: "Signal", src: "/channels/signal.svg" },
+  { label: "Instagram", src: "/channels/instagram.svg" },
 ];
 
-const bottomRow = [
-  {
-    title: "Skills as agent abilities",
-    body:
-      "Stored expert prompts exposed via /skill. Reusable, inspectable, and shareable across agents — your best patterns without the copy-paste.",
-    mock: "skills" as const,
-  },
-  {
-    title: "Durable artifact processing",
-    body:
-      "Postgres for state, S3-compatible object storage for binaries. Documents, media, and derived evidence kept with inspection chains intact.",
-    mock: "artifacts" as const,
-  },
-  {
-    title: "Runtime visibility",
-    body:
-      "Health, setup, dashboards, and OpenAPI-backed surfaces. Every tool call, provider response, and memory write is auditable by default.",
-    mock: "runtime" as const,
-  },
+type Agent = { id: string; color: string; state: AgentState };
+
+const featuredAgents: Agent[] = [
+  { id: "atlas", color: "#6e97d9", state: "thinking" },
+  { id: "scout", color: "#5da9a3", state: "thinking" },
+  { id: "pebble", color: "#e4b454", state: "listening" },
+  { id: "otto", color: "#c07a96", state: null },
 ];
 
-function Orb({ color, size = 24 }: { color: string; size?: number }) {
+const cardClass =
+  "h-full rounded-[16px] border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.025)] p-6 md:p-7 hover:border-[rgba(255,255,255,0.1)] transition-colors flex flex-col";
+
+const eyebrowClass =
+  "text-[10.5px] font-mono uppercase tracking-[0.16em] text-[var(--dark-text-quaternary)]";
+
+const titleClass =
+  "text-[18px] md:text-[19px] font-medium text-[var(--dark-text-primary)] leading-tight tracking-[-0.01em]";
+
+const bodyClass =
+  "text-[13.5px] md:text-[14px] leading-[1.55] text-[var(--dark-text-secondary)]";
+
+function ChannelsCard() {
   return (
-    <span
-      aria-hidden
-      className="agent-sigil-lp shrink-0 relative"
-      style={{
-        ["--orb-color" as string]: color,
-        width: `${size}px`,
-        height: `${size}px`,
-      }}
+    <article className={cardClass}>
+      <span className={eyebrowClass}>Bot gateway</span>
+      <h3 className={`${titleClass} mt-3`}>
+        Talk to agents on every channel.
+      </h3>
+      <p className={`${bodyClass} mt-3`}>
+        One control plane, every messenger. Plug-and-play webhooks across the
+        platforms your team and customers already use.
+      </p>
+
+      <div className="mt-6 grid grid-cols-3 gap-2 flex-1 content-center">
+        {channels.map((c) => (
+          <div
+            key={c.label}
+            className="aspect-square rounded-[12px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.02)] flex items-center justify-center hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+            title={c.label}
+          >
+            <img
+              src={c.src}
+              alt={c.label}
+              className="h-7 w-7 md:h-8 md:w-8"
+              decoding="async"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-1.5">
+        {channels.slice(0, 5).map((c) => (
+          <span
+            key={c.label}
+            className="text-[11px] font-mono text-[var(--dark-text-tertiary)] px-2 py-0.5 rounded-[5px] bg-[rgba(255,255,255,0.04)]"
+          >
+            {c.label}
+          </span>
+        ))}
+        <span className="text-[11px] font-mono text-[var(--dark-text-quaternary)] px-2 py-0.5">
+          +{channels.length - 5} more
+        </span>
+      </div>
+    </article>
+  );
+}
+
+function AgentsCard() {
+  return (
+    <article className={cardClass}>
+      <span className={eyebrowClass}>Runtime</span>
+      <div className="mt-4 flex items-center gap-2">
+        {featuredAgents.map((a) => (
+          <AgentGlyph
+            key={a.id}
+            agentId={a.id}
+            color={a.color}
+            state={a.state}
+            variant="list"
+            style={{ width: 36, height: 36 }}
+          />
+        ))}
+      </div>
+      <h3 className={`${titleClass} mt-auto`}>
+        Multi-agent, multi-provider.
+      </h3>
+      <p className={`${bodyClass} mt-2`}>
+        Each agent picks its own model and tools. Parallel by default.
+      </p>
+    </article>
+  );
+}
+
+function StatisticCard() {
+  return (
+    <article
+      className={`${cardClass} relative overflow-hidden items-start justify-between`}
     >
-      <span className="agent-sigil-lp__halo" />
-      <span className="agent-sigil-lp__base" />
-      <span className="agent-sigil-lp__swirl" />
-      <span className="agent-sigil-lp__shine" />
-      <span className="agent-sigil-lp__grain" />
-    </span>
-  );
-}
-
-function StatusDot({ color, pulse = false }: { color: string; pulse?: boolean }) {
-  return (
-    <span className="relative inline-flex">
-      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
-      {pulse && (
-        <span
-          className="absolute inset-0 w-1.5 h-1.5 rounded-full animate-ping"
-          style={{ backgroundColor: color, opacity: 0.6 }}
-        />
-      )}
-    </span>
-  );
-}
-
-/* =========================================================
-   Mock 1 — Control-plane configuration
-   ========================================================= */
-function MockConfig() {
-  const providers = [
-    { name: "anthropic", model: "claude-opus-4-7", enabled: true, dot: "#4f8a61" },
-    { name: "openai", model: "gpt-5", enabled: true, dot: "#4f8a61" },
-    { name: "google", model: "gemini-3-pro", enabled: true, dot: "#4f8a61" },
-    { name: "ollama", model: "local/llama3.3", enabled: false, dot: "#6A6A6A" },
-  ];
-  return (
-    <div className="mt-6 rounded-[12px] border border-[rgba(255,255,255,0.06)] bg-[rgba(12,12,12,0.5)] overflow-hidden">
-      <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[rgba(255,255,255,0.05)]">
-        <div className="flex items-center gap-2 text-[11px] font-mono text-[var(--dark-text-tertiary)]">
-          <span className="w-1 h-1 rounded-full bg-[#4f8a61]" />
-          config / providers
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.18] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+          backgroundSize: "14px 14px",
+        }}
+      />
+      <span className={`${eyebrowClass} relative z-10`}>License</span>
+      <div className="relative z-10 flex-1 flex flex-col justify-center min-w-0">
+        <div className="display-serif text-[56px] md:text-[52px] lg:text-[64px] xl:text-[72px] leading-[0.95] tracking-[-0.04em] text-[var(--dark-text-primary)]">
+          Apache
         </div>
-        <span className="text-[10.5px] font-mono text-[var(--dark-text-quaternary)] uppercase tracking-[0.12em]">
-          synced
-        </span>
+        <div className="display-serif text-[36px] md:text-[34px] lg:text-[40px] xl:text-[44px] leading-[0.95] tracking-[-0.03em] text-[#d97757]">
+          2.0
+        </div>
       </div>
-      <div className="p-2 space-y-1">
-        {providers.map((p) => (
+      <div className={`${bodyClass} relative z-10 text-[12.5px]`}>
+        Fork it, host it, ship it.
+      </div>
+    </article>
+  );
+}
+
+type MemoryLayer = {
+  label: string;
+  icon: typeof Database;
+};
+
+const memoryLayers: MemoryLayer[] = [
+  { label: "memory", icon: Database },
+  { label: "retrieval", icon: Search },
+  { label: "curation", icon: Sparkles },
+  { label: "relations", icon: GitFork },
+];
+
+function MemoryStack() {
+  return (
+    <div className="relative shrink-0" style={{ width: 80, height: 100 }}>
+      {memoryLayers.map((_, i) => {
+        const reverseIdx = memoryLayers.length - 1 - i;
+        return (
           <div
-            key={p.name}
-            className="flex items-center justify-between rounded-[8px] px-2.5 py-2 hover:bg-[rgba(255,255,255,0.03)] transition-colors"
-          >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <StatusDot color={p.dot} />
-              <div className="min-w-0">
-                <div className="text-[12.5px] font-medium text-[var(--dark-text-primary)] font-mono leading-tight">
-                  {p.name}
-                </div>
-                <div className="text-[10.5px] font-mono text-[var(--dark-text-tertiary)] truncate leading-tight">
-                  {p.model}
-                </div>
-              </div>
-            </div>
-            <span
-              className={`relative w-7 h-4 rounded-full transition-colors ${
-                p.enabled ? "bg-[#4f8a61]/80" : "bg-[rgba(255,255,255,0.1)]"
-              }`}
-            >
-              <span
-                className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
-                  p.enabled ? "left-3.5" : "left-0.5"
-                }`}
-              />
-            </span>
-          </div>
-        ))}
-      </div>
+            key={i}
+            className="absolute rounded-[6px] border border-[rgba(255,255,255,0.07)]"
+            style={{
+              width: 72,
+              height: 16,
+              right: 0,
+              top: 6 + reverseIdx * 22,
+              background:
+                "linear-gradient(180deg, rgba(46,46,46,0.92) 0%, rgba(20,20,20,1) 50%, rgba(8,8,8,1) 100%)",
+              boxShadow:
+                "0 6px 14px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05)",
+              transform: "perspective(500px) rotateX(48deg)",
+            }}
+          />
+        );
+      })}
     </div>
   );
 }
 
-/* =========================================================
-   Mock 2 — Multi-agent runtime (featured)
-   ========================================================= */
-function MockProviders() {
-  const agents = [
-    { name: "Atlas", color: "#6e97d9", model: "anthropic/claude-opus-4-7", status: "Live", tone: "#5b94ff", pulse: true },
-    { name: "Scout", color: "#5da9a3", model: "google/gemini-3-pro", status: "Live", tone: "#5b94ff", pulse: true },
-    { name: "Pebble", color: "#e4b454", model: "anthropic/claude-haiku-4-5", status: "Queued", tone: "#f0c870", pulse: false },
-    { name: "Otto", color: "#c07a96", model: "openai/gpt-5", status: "Done", tone: "#7fbf8f", pulse: false },
-  ];
+function MemoryCard() {
   return (
-    <div className="mt-6 rounded-[12px] border border-[rgba(255,255,255,0.06)] bg-[rgba(12,12,12,0.5)] overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[rgba(255,255,255,0.05)]">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#c05b6c]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#e4b454]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#4f8a61]" />
-        </div>
-        <span className="text-[11px] font-mono text-[var(--dark-text-tertiary)]">koda / runtime</span>
-      </div>
-      <div className="p-2.5 space-y-1.5">
-        {agents.map((a) => (
-          <div
-            key={a.name}
-            className="flex items-center gap-2.5 rounded-[8px] px-2 py-1.5"
-          >
-            <Orb color={a.color} size={22} />
-            <div className="flex-1 min-w-0">
-              <div className="text-[12.5px] font-medium text-[var(--dark-text-primary)] leading-tight">
-                {a.name}
-              </div>
-              <div className="text-[10.5px] font-mono text-[var(--dark-text-tertiary)] truncate leading-tight">
-                {a.model}
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <StatusDot color={a.tone} pulse={a.pulse} />
-              <span
-                className="text-[10.5px] font-mono uppercase tracking-[0.1em] leading-none"
-                style={{ color: a.tone }}
-              >
-                {a.status}
+    <article className={cardClass}>
+      <span className={eyebrowClass}>Memory & retrieval</span>
+      <h3 className={`${titleClass} mt-3`}>Grounded in what's true.</h3>
+      <p className={`${bodyClass} mt-2`}>
+        Episodic memory, semantic retrieval, curated relations.
+      </p>
+
+      <div className="mt-auto pt-5 flex items-center gap-3">
+        <div className="flex flex-col gap-[10px] flex-1 min-w-0">
+          {memoryLayers.map((l) => (
+            <div key={l.label} className="flex items-center gap-2">
+              <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[5px] bg-white shrink-0">
+                <l.icon className="h-3 w-3 text-[#0C0C0C]" strokeWidth={2.2} />
               </span>
+              <span className="font-mono text-[10.5px] text-[var(--dark-text-secondary)] shrink-0">
+                {l.label}
+              </span>
+              <span className="flex-1 border-t border-dashed border-[rgba(255,255,255,0.12)]" />
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <MemoryStack />
       </div>
-    </div>
+    </article>
   );
 }
 
-/* =========================================================
-   Mock 3 — Knowledge & memory retrieval
-   ========================================================= */
-function MockMemory() {
-  const results = [
-    { source: "incidents/2026-q1-outage.md", score: 0.92 },
-    { source: "runbooks/postgres-replica-recovery.md", score: 0.78 },
-    { source: "skills/incident-triage.md", score: 0.64 },
-  ];
+type ContainerStatus = "done" | "active" | "pending";
+
+const containers: { name: string; status: ContainerStatus }[] = [
+  { name: "koda-runtime", status: "done" },
+  { name: "koda-memory", status: "active" },
+  { name: "koda-security", status: "pending" },
+  { name: "koda-postgres", status: "pending" },
+];
+
+function StatusIcon({ status }: { status: ContainerStatus }) {
+  if (status === "done") {
+    return (
+      <span className="flex h-4 w-4 items-center justify-center rounded-full border-[1.5px] border-[#5fae6f]">
+        <Check className="h-2 w-2 text-[#5fae6f]" strokeWidth={3.5} />
+      </span>
+    );
+  }
+  if (status === "active") {
+    return (
+      <span
+        aria-hidden
+        className="block h-4 w-4"
+        style={{
+          backgroundColor: "#E1E0CC",
+          maskImage: "url(/koda-mark-white.svg)",
+          WebkitMaskImage: "url(/koda-mark-white.svg)",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+      />
+    );
+  }
   return (
-    <div className="mt-6 rounded-[12px] border border-[rgba(255,255,255,0.06)] bg-[rgba(12,12,12,0.5)] overflow-hidden">
-      <div className="px-3.5 py-2.5 border-b border-[rgba(255,255,255,0.05)]">
-        <div className="flex items-center gap-2 rounded-[6px] bg-[rgba(255,255,255,0.04)] px-2.5 py-1.5">
-          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden className="text-[var(--dark-text-tertiary)]">
-            <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.4" />
-            <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-          </svg>
-          <span className="text-[11.5px] font-mono text-[var(--dark-text-secondary)]">
-            /retrieve q1 outage
-          </span>
-        </div>
-      </div>
-      <div className="p-2 space-y-1">
-        {results.map((r) => (
-          <div key={r.source} className="rounded-[8px] px-2.5 py-2 hover:bg-[rgba(255,255,255,0.03)] transition-colors">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-mono text-[var(--dark-text-secondary)] truncate">
-                {r.source}
-              </span>
-              <span className="text-[10px] font-mono text-[var(--dark-text-tertiary)] ml-2 shrink-0">
-                {r.score.toFixed(2)}
-              </span>
-            </div>
-            <div className="h-1 w-full rounded-full bg-[rgba(255,255,255,0.04)] overflow-hidden">
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${r.score * 100}%`,
-                  background: "linear-gradient(90deg, #5b94ff 0%, #8f6ccf 100%)",
-                }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <span className="block h-4 w-4 rounded-full border-[1.5px] border-[rgba(255,255,255,0.18)]" />
   );
 }
 
-/* =========================================================
-   Mock 4 — Skills catalog
-   ========================================================= */
-function MockSkills() {
-  const skills = [
-    { name: "rca", desc: "Root-cause analysis", runs: 142 },
-    { name: "summarize-pr", desc: "PR summary from diff", runs: 88 },
-    { name: "db-migration-plan", desc: "Schema migration draft", runs: 31 },
-    { name: "incident-triage", desc: "Classify + route incident", runs: 67 },
-  ];
-  return (
-    <div className="mt-6 rounded-[12px] border border-[rgba(255,255,255,0.06)] bg-[rgba(12,12,12,0.5)] overflow-hidden">
-      <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[rgba(255,255,255,0.05)]">
-        <div className="flex items-center gap-2 text-[11px] font-mono text-[var(--dark-text-tertiary)]">
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
-            <path
-              d="M6 1l1.4 3.3L11 4.8 8.3 7.2 9.2 11 6 9 2.8 11l.9-3.8L1 4.8l3.6-.5L6 1z"
-              stroke="currentColor"
-              strokeWidth="1.1"
-              strokeLinejoin="round"
-            />
-          </svg>
-          /skills catalog
-        </div>
-        <span className="text-[10.5px] font-mono text-[var(--dark-text-quaternary)]">
-          4 shared
-        </span>
-      </div>
-      <div className="p-2 space-y-1">
-        {skills.map((s) => (
-          <div
-            key={s.name}
-            className="flex items-center justify-between rounded-[8px] px-2.5 py-2 hover:bg-[rgba(255,255,255,0.03)] transition-colors"
-          >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <span className="inline-flex items-center gap-1 rounded-[5px] bg-[rgba(228,180,84,0.1)] border border-[rgba(228,180,84,0.18)] px-1.5 py-0.5 font-mono text-[10.5px] text-[#f0c870] shrink-0">
-                /{s.name}
-              </span>
-              <span className="text-[11.5px] text-[var(--dark-text-tertiary)] truncate">
-                {s.desc}
-              </span>
-            </div>
-            <span className="text-[10.5px] font-mono text-[var(--dark-text-quaternary)] shrink-0 ml-2">
-              {s.runs} runs
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   Mock 5 — Durable artifacts
-   ========================================================= */
-function MockArtifacts() {
-  const artifacts = [
-    { name: "outage-screenshot.png", size: "2.4 MB", storage: "S3", color: "#5da9a3" },
-    { name: "postmortem-q1.pdf", size: "488 KB", storage: "S3", color: "#5da9a3" },
-    { name: "evidence-chain.json", size: "12 KB", storage: "PG", color: "#6e97d9" },
-  ];
-  return (
-    <div className="mt-6 rounded-[12px] border border-[rgba(255,255,255,0.06)] bg-[rgba(12,12,12,0.5)] overflow-hidden">
-      <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[rgba(255,255,255,0.05)]">
-        <div className="text-[11px] font-mono text-[var(--dark-text-tertiary)]">
-          artifacts / run-2417
-        </div>
-        <div className="flex items-center gap-1 text-[10px] font-mono text-[var(--dark-text-quaternary)]">
-          <span className="inline-flex items-center gap-1 rounded-[3px] bg-[rgba(110,151,217,0.1)] px-1 text-[#6e97d9]">
-            PG
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-[3px] bg-[rgba(93,169,163,0.1)] px-1 text-[#5da9a3]">
-            S3
-          </span>
-        </div>
-      </div>
-      <div className="p-2 space-y-1">
-        {artifacts.map((a) => (
-          <div
-            key={a.name}
-            className="flex items-center gap-2.5 rounded-[8px] px-2.5 py-2 hover:bg-[rgba(255,255,255,0.03)] transition-colors"
-          >
-            <div
-              className="w-6 h-6 rounded-[5px] flex items-center justify-center shrink-0 border"
-              style={{
-                borderColor: `${a.color}33`,
-                backgroundColor: `${a.color}15`,
-                color: a.color,
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
-                <path
-                  d="M3 1.5h5l3 3v8H3V1.5z"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinejoin="round"
-                />
-                <path d="M8 1.5v3h3" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[12px] font-mono text-[var(--dark-text-primary)] truncate leading-tight">
-                {a.name}
-              </div>
-              <div className="text-[10px] font-mono text-[var(--dark-text-tertiary)] leading-tight">
-                {a.size} · {a.storage}
-              </div>
-            </div>
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden
-              className="text-[var(--dark-text-quaternary)] shrink-0"
-            >
-              <path d="M5 3l5 5-5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-            </svg>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   Mock 6 — Runtime visibility (OpenAPI)
-   ========================================================= */
-function MockRuntime() {
-  const endpoints = [
-    { method: "GET", path: "/api/runtime/agents", code: 200, ms: 14 },
-    { method: "POST", path: "/api/runtime/tasks", code: 201, ms: 42 },
-    { method: "GET", path: "/api/control-plane/health", code: 200, ms: 8 },
-    { method: "GET", path: "/api/runtime/tasks/:id", code: 200, ms: 21 },
-  ];
-  const methodColors: Record<string, string> = {
-    GET: "#4f8a61",
-    POST: "#6e97d9",
-    PATCH: "#e4b454",
-    DELETE: "#c05b6c",
-  };
-  return (
-    <div className="mt-6 rounded-[12px] border border-[rgba(255,255,255,0.06)] bg-[rgba(12,12,12,0.5)] overflow-hidden">
-      <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[rgba(255,255,255,0.05)]">
-        <div className="flex items-center gap-2 text-[11px] font-mono text-[var(--dark-text-tertiary)]">
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
-            <path
-              d="M4 3.5L1.5 6 4 8.5M8 3.5L10.5 6 8 8.5M7 2L5 10"
-              stroke="currentColor"
-              strokeWidth="1.1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          openapi / control-plane
-        </div>
-        <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#7fbf8f]">
-          <span className="w-1 h-1 rounded-full bg-[#4f8a61]" />
-          99.94%
-        </span>
-      </div>
-      <div className="p-2 space-y-0.5">
-        {endpoints.map((e) => (
-          <div
-            key={e.path}
-            className="flex items-center gap-2 rounded-[8px] px-2.5 py-1.5 hover:bg-[rgba(255,255,255,0.03)] transition-colors"
-          >
-            <span
-              className="text-[9.5px] font-mono font-semibold px-1.5 py-0.5 rounded-[3px] shrink-0"
-              style={{
-                color: methodColors[e.method],
-                backgroundColor: `${methodColors[e.method]}15`,
-              }}
-            >
-              {e.method}
-            </span>
-            <span className="flex-1 min-w-0 text-[11px] font-mono text-[var(--dark-text-secondary)] truncate">
-              {e.path}
-            </span>
-            <span className="text-[10px] font-mono text-[var(--dark-text-tertiary)] shrink-0">
-              {e.ms}ms
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Mock({ variant }: { variant: "config" | "providers" | "memory" | "skills" | "artifacts" | "runtime" }) {
-  if (variant === "config") return <MockConfig />;
-  if (variant === "providers") return <MockProviders />;
-  if (variant === "memory") return <MockMemory />;
-  if (variant === "skills") return <MockSkills />;
-  if (variant === "artifacts") return <MockArtifacts />;
-  return <MockRuntime />;
-}
-
-function FeatureCard({
-  title,
-  body,
-  mock,
+function ContainerRow({
+  name,
+  status,
+  faded,
 }: {
-  title: string;
-  body: string;
-  mock: "config" | "providers" | "memory" | "skills" | "artifacts" | "runtime";
+  name: string;
+  status: ContainerStatus;
+  faded?: number;
 }) {
   return (
-    <article className="group rounded-[16px] border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.025)] p-7 md:p-8 flex flex-col hover:border-[rgba(255,255,255,0.1)] transition-colors">
-      <h3 className="text-[18px] md:text-[19px] font-medium text-[var(--dark-text-primary)] leading-tight">
-        {title}
-      </h3>
-      <p className="mt-3 text-[14px] md:text-[14.5px] leading-[1.55] text-[var(--dark-text-secondary)]">
-        {body}
+    <div className="flex items-center gap-2.5" style={faded ? { opacity: faded } : undefined}>
+      <StatusIcon status={status} />
+      <div className="inline-flex items-center gap-1.5 rounded-[7px] bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] pl-1 pr-2.5 py-0.5">
+        <span className="flex h-5 w-5 items-center justify-center rounded-[4px] bg-white/95">
+          <DockerIcon className="h-3.5 w-3.5 text-[#0C0C0C]" />
+        </span>
+        <span className="font-mono text-[12.5px] text-[var(--dark-text-primary)]">{name}</span>
+      </div>
+    </div>
+  );
+}
+
+function ContainersCard() {
+  return (
+    <article className={`${cardClass} overflow-hidden`}>
+      <span className={eyebrowClass}>Containers</span>
+      <h3 className={`${titleClass} mt-3`}>One harness, every container.</h3>
+      <p className={`${bodyClass} mt-2`}>
+        Runtime, memory, security — one declarative deploy.
       </p>
-      <a
-        href="#foundations"
-        className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-[var(--dark-text-secondary)] hover:text-[var(--dark-text-primary)] transition-colors"
-      >
-        Learn more
-        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
-      <div className="flex-1 mt-2 flex items-end">
-        <div className="w-full">
-          <Mock variant={mock} />
+
+      <div className="mt-auto pt-4 flex flex-col gap-1.5 -mb-6 md:-mb-7">
+        {containers.map((c, i) => (
+          <ContainerRow
+            key={c.name}
+            name={c.name}
+            status={c.status}
+            faded={i === 2 ? 0.45 : i === 3 ? 0.22 : undefined}
+          />
+        ))}
+      </div>
+    </article>
+  );
+}
+
+type Provider = { src: string; tint?: string; alt: string; model: string };
+
+const featuredProviders: Provider[] = [
+  { src: "/providers/openai.svg", alt: "OpenAI", model: "gpt-5" },
+  { src: "/providers/anthropic.svg", tint: "#D97757", alt: "Anthropic", model: "claude-opus" },
+  { src: "/providers/google.svg", alt: "Google", model: "gemini-pro" },
+];
+
+function ProviderMark({
+  provider,
+  className,
+  size,
+}: {
+  provider: Provider;
+  className?: string;
+  size: number;
+}) {
+  if (provider.tint) {
+    return (
+      <span
+        aria-label={provider.alt}
+        className={className}
+        style={{
+          display: "inline-block",
+          width: size,
+          height: size,
+          backgroundColor: provider.tint,
+          maskImage: `url(${provider.src})`,
+          WebkitMaskImage: `url(${provider.src})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+      />
+    );
+  }
+  return (
+    <img
+      src={provider.src}
+      alt=""
+      aria-hidden
+      width={size}
+      height={size}
+      className={className}
+      style={{
+        objectFit: "contain",
+        filter: "invert(1) brightness(0.05)",
+      }}
+    />
+  );
+}
+
+function NotificationPill({
+  provider,
+  command,
+  z,
+  shiftX,
+  top,
+}: {
+  provider: Provider;
+  command: string;
+  z: number;
+  shiftX: number;
+  top: number;
+}) {
+  return (
+    <div
+      className="absolute flex items-center gap-2 whitespace-nowrap rounded-[10px] bg-white px-2 py-1.5 shadow-[0_8px_20px_rgba(0,0,0,0.45)]"
+      style={{
+        zIndex: z,
+        top,
+        left: `calc(50% + ${shiftX}px)`,
+        transform: "translateX(-50%)",
+      }}
+    >
+      <span className="flex h-5 w-5 items-center justify-center">
+        <ProviderMark provider={provider} size={16} />
+      </span>
+      <span className="font-mono text-[12px] text-[#0C0C0C] mr-2">
+        {command}
+      </span>
+      <span className="rounded-[6px] bg-[#3b82f6] px-2 py-0.5 text-[11px] font-medium text-white">
+        Run
+      </span>
+    </div>
+  );
+}
+
+function ProviderTile({ provider }: { provider: Provider }) {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[10px] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.3)]">
+        <ProviderMark provider={provider} size={30} />
+      </div>
+      <span className="rounded-[5px] bg-[rgba(255,255,255,0.05)] px-2 py-0.5 font-mono text-[10.5px] text-[var(--dark-text-tertiary)]">
+        {provider.model}
+      </span>
+    </div>
+  );
+}
+
+function ProvidersCard() {
+  return (
+    <article className={`${cardClass} relative overflow-hidden`}>
+      <div className="flex flex-col md:flex-row gap-8 md:gap-10 items-start md:items-center">
+        <div className="md:flex-1 md:max-w-[420px]">
+          <span className={eyebrowClass}>Multi-model</span>
+          <h3 className={`${titleClass} mt-3`}>
+            Multi-provider, multi-model.
+          </h3>
+          <p className={`${bodyClass} mt-2`}>
+            Koda verifies Anthropic, OpenAI, Google, Ollama, and OpenAI-compatible providers — agents pick what each task needs.
+          </p>
+          <a
+            href="#foundations"
+            className="group mt-3 inline-flex items-center gap-1 text-[13.5px] text-[var(--dark-text-primary)]"
+          >
+            Learn more
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </div>
+
+        <div className="relative flex flex-col items-center md:flex-1 w-full">
+          <div className="relative h-[100px] w-full max-w-[280px]">
+            <NotificationPill
+              provider={featuredProviders[0]}
+              command="/triage-pr"
+              z={3}
+              shiftX={-32}
+              top={0}
+            />
+            <NotificationPill
+              provider={featuredProviders[1]}
+              command="/summarize-incident"
+              z={2}
+              shiftX={0}
+              top={26}
+            />
+            <NotificationPill
+              provider={featuredProviders[2]}
+              command="/audit-runs"
+              z={1}
+              shiftX={32}
+              top={52}
+            />
+          </div>
+
+          <div className="flex items-end gap-4 mt-3">
+            {featuredProviders.map((p) => (
+              <ProviderTile key={p.alt} provider={p} />
+            ))}
+          </div>
         </div>
       </div>
     </article>
@@ -473,20 +477,20 @@ export function FeatureGrid() {
             The platform, day one.
           </h2>
           <p className="mt-5 text-[15.5px] md:text-[16.5px] text-[var(--dark-text-secondary)] max-w-[580px] mx-auto">
-            Everything you need to run agents in production — configured from the dashboard, not six config files.
+            Everything you need to run agents in production — configured from the
+            dashboard, not six config files.
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {topRow.map((c) => (
-            <FeatureCard key={c.title} {...c} />
-          ))}
-        </div>
-
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {bottomRow.map((c) => (
-            <FeatureCard key={c.title} {...c} />
-          ))}
+        <div className="mt-14 md:mt-16">
+          <BentoGridShowcase
+            integration={<ChannelsCard />}
+            trackers={<AgentsCard />}
+            statistic={<StatisticCard />}
+            focus={<MemoryCard />}
+            productivity={<ContainersCard />}
+            shortcuts={<ProvidersCard />}
+          />
         </div>
       </div>
     </section>

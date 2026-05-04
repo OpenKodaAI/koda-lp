@@ -30,7 +30,7 @@ const features = [
   {
     title: "Production-grade by design",
     description:
-      "Postgres for durable state. S3-compatible artifact storage. OpenAPI-backed public surfaces. Built for operators, not hobby projects.",
+      "Postgres for durable state. S3-compatible artifact storage. Control-plane OpenAPI plus runtime inspection routes. Built for operators, not hobby projects.",
     icon: (
       <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden>
         <path
@@ -57,7 +57,7 @@ const features = [
   {
     title: "Yours to fork, yours to run",
     description:
-      "MIT-licensed. Docker-first. Self-host on a single VPS or scale across nodes. No managed service, no vendor path dependency.",
+      "Apache 2.0 licensed. Docker-first. Self-host on a single VPS or scale across nodes. No managed service, no vendor path dependency.",
     icon: (
       <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden>
         <path

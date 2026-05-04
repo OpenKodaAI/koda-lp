@@ -40,7 +40,7 @@ const NODES: Node[] = [
   {
     id: "providers",
     label: "External providers",
-    sub: "Claude · OpenAI · Gemini · Ollama",
+    sub: "Anthropic · OpenAI · Gemini · Ollama · more",
     x: 460,
     y: 30,
     w: 190,

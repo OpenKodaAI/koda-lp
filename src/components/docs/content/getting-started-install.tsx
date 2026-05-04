@@ -167,7 +167,7 @@ export function GettingStartedInstall() {
       </p>
 
       <StepList>
-        <Step title="Open /control-plane/setup">
+        <Step title="Open /setup">
           The installer prints this URL. On loopback (<code>127.0.0.1</code>) the
           development default <code>ALLOW_LOOPBACK_BOOTSTRAP=true</code> lets you
           skip the setup code. On a remote host you'll be prompted for it.

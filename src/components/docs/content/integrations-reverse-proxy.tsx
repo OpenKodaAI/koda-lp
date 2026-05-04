@@ -14,22 +14,19 @@ export function IntegrationsReverseProxy() {
 
       <h2 id="what-to-publish">What to publish</h2>
       <p>
-        Only two backends, five paths. Everything else stays inside the
+        Only two backends and a small set of paths. Everything else stays inside the
         compose network.
       </p>
       <ul>
         <li>
           <code>127.0.0.1:3000</code> — Next.js dashboard. Owns{" "}
-          <code>/</code> and <code>/control-plane/</code>.
+          <code>/</code>, <code>/setup</code>, <code>/login</code>, and{" "}
+          <code>/control-plane/</code>.
         </li>
         <li>
           <code>127.0.0.1:8090</code> — control plane + runtime API. Owns{" "}
           <code>/api/control-plane/*</code>, <code>/api/runtime/*</code>, and
           the OpenAPI at <code>/openapi/control-plane.json</code>.
-        </li>
-        <li>
-          Optionally: publish <code>/setup</code> on the dashboard if you
-          want a compatibility redirect into the first-run flow.
         </li>
       </ul>
 
@@ -50,7 +47,7 @@ export function IntegrationsReverseProxy() {
   reverse_proxy /api/runtime/* 127.0.0.1:8090
   reverse_proxy /openapi/* 127.0.0.1:8090
 
-  # Optional: first-run compatibility
+  # First-run setup
   reverse_proxy /setup 127.0.0.1:3000
 
   # Hide server identity
@@ -180,8 +177,9 @@ server {
           HTML.
         </li>
         <li>
-          <code>curl -I https://koda.example.com/api/control-plane/health</code>{" "}
-          → JSON health payload.
+          <code>curl -I https://koda.example.com/health</code> and{" "}
+          <code>curl -I https://koda.example.com/api/runtime/ready</code> →
+          app liveness and runtime readiness.
         </li>
         <li>
           Open the dashboard, sign in, check DevTools → Application →

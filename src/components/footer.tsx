@@ -69,7 +69,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-[rgba(255,255,255,0.05)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div className="text-[12.5px] font-mono text-[var(--dark-text-tertiary)]">
-            © {new Date().getFullYear()} Koda. MIT-licensed.
+            © {new Date().getFullYear()} Koda. Apache 2.0 licensed.
           </div>
           <div className="text-[12.5px] font-mono text-[var(--dark-text-tertiary)]">
             Built to orchestrate, not to lock in.

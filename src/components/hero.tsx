@@ -1,160 +1,182 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { KodaMark } from "@/components/ui/koda-mark";
+import type { ReactNode } from "react";
 import { CopyButton } from "@/components/ui/copy-button";
+import { WordsPullUp } from "@/components/ui/prisma-hero";
 
 const INSTALL_COMMAND = "npx @openkodaai/koda@latest install";
 
-const chips = [
+const NpmIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 27.23 27.23" aria-hidden className={className}>
+    <rect width="27.23" height="27.23" rx="2" fill="currentColor" />
+    <polygon
+      points="5.8,21.75 13.61,21.75 13.61,9.59 17.52,9.59 17.52,21.75 21.43,21.75 21.43,5.68 5.8,5.68"
+      fill="#0C0C0C"
+    />
+  </svg>
+);
+
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.69-3.87-1.54-3.87-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18.91-.25 1.89-.38 2.86-.39.97.01 1.95.14 2.86.39 2.18-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56C20.22 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+  </svg>
+);
+
+const navItems: { label: string; href: string; icon?: ReactNode }[] = [
+  { label: "Docs", href: "/docs" },
   {
-    label: "Run agents across providers",
-    animClass: "chip-drift-a",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <circle cx="9" cy="9" r="7.5" stroke="#0C0C0C" strokeWidth="1.4" />
-        <path d="M3.5 9.5c1.5-1.8 4-2.8 5.5-2.8s4 1 5.5 2.8" stroke="#0C0C0C" strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    ),
-    position: "top-[62%] left-[3%] xl:left-[6%]",
+    label: "npm",
+    href: "https://www.npmjs.com/package/@openkodaai/koda",
+    icon: <NpmIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />,
   },
   {
-    label: "Ground with retrieval & memory",
-    animClass: "chip-drift-b",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <rect x="2.5" y="2.5" width="13" height="13" rx="3" stroke="#0C0C0C" strokeWidth="1.4" />
-        <path d="M6 9h6M6 6h4M6 12h5" stroke="#0C0C0C" strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    ),
-    position: "top-[76%] left-[8%] xl:left-[12%]",
+    label: "GitHub",
+    href: "https://github.com/openkodaai/koda",
+    icon: <GithubIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />,
   },
-  {
-    label: "Turn Skills into abilities",
-    animClass: "chip-drift-c",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <path d="M9 2l2 4.5 4.8.5-3.5 3.3L13.5 15 9 12.7 4.5 15l1.2-4.7L2.2 7l4.8-.5z" stroke="#0C0C0C" strokeWidth="1.4" strokeLinejoin="round" />
-      </svg>
-    ),
-    position: "top-[62%] right-[3%] xl:right-[6%]",
-  },
-  {
-    label: "Operator-first control plane",
-    animClass: "chip-drift-d",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <circle cx="9" cy="9" r="2.3" stroke="#0C0C0C" strokeWidth="1.4" />
-        <circle cx="9" cy="9" r="7" stroke="#0C0C0C" strokeWidth="1.4" />
-        <path d="M9 2v1.8M9 14.2V16M2 9h1.8M14.2 9H16" stroke="#0C0C0C" strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    ),
-    position: "top-[76%] right-[8%] xl:right-[12%]",
-  },
-  {
-    label: "Durable state by default",
-    animClass: "chip-drift-c",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <ellipse cx="9" cy="4.5" rx="5.5" ry="2" stroke="#0C0C0C" strokeWidth="1.4" />
-        <path d="M3.5 4.5v9c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2v-9" stroke="#0C0C0C" strokeWidth="1.4" />
-        <path d="M3.5 9c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2" stroke="#0C0C0C" strokeWidth="1.4" />
-      </svg>
-    ),
-    position: "top-[88%] left-[42%] xl:left-[44%]",
-  },
+  { label: "Foundations", href: "#foundations" },
 ];
 
 export function Hero() {
   return (
-    <section className="hero-sky relative overflow-hidden min-h-[640px] md:min-h-[720px]">
-      <div className="container-lp relative z-[5] pt-20 md:pt-24 pb-36 text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <KodaMark variant="black" size={28} className="drop-shadow-[0_1px_0_rgba(255,255,255,0.4)]" />
-          <span className="text-[17px] font-semibold tracking-tight text-[#0C0C0C]">koda</span>
-        </div>
-
-        <h1
-          className="display-serif text-[#0C0C0C] text-[32px] sm:text-[42px] md:text-[54px] lg:text-[60px] leading-[1.02] font-medium tracking-[-0.025em]"
-          style={{ textShadow: "0 1px 0 rgba(255,255,255,0.18)" }}
+    <section className="h-screen w-full p-2 md:p-3">
+      <div className="relative h-full w-full overflow-hidden rounded-2xl md:rounded-[2rem] bg-[#0C0C0C]">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="/hero-poster.jpg"
+          className="absolute inset-0 h-full w-full object-cover"
         >
-          Many agents. Many providers.
-          <br />
-          One harness.
-        </h1>
+          {/* WebM (VP9) first — ~21% smaller than mp4. Safari falls through to mp4. */}
+          <source src="/hero.webm" type="video/webm" />
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
 
-        <p className="mt-6 mx-auto max-w-[620px] text-[15px] md:text-[16px] leading-[1.55] text-[#1f1c17]">
-          Koda is the open-source harness for multi-agent, multi-provider systems. A control
-          plane you actually use, durable state by default, and every runtime action inspectable
-          from day one.
-        </p>
+        <div className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.55] mix-blend-overlay" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/70" />
 
-        <div className="mt-8 mx-auto max-w-[620px]">
-          <div className="flex items-center gap-3 p-1.5 rounded-[14px] bg-black border border-white/[0.08] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_10px_30px_rgba(0,0,0,0.35)]">
-            <a
-              href="https://github.com/openkodaai/koda"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 inline-flex h-10 items-center px-4 rounded-[10px] bg-[#fffefb] text-[13.5px] font-medium text-[#0C0C0C] hover:bg-white transition-colors"
-            >
-              Install Koda
-            </a>
-
-            <code className="flex-1 min-w-0 flex items-center gap-2 overflow-x-auto font-mono text-[13.5px] whitespace-nowrap scrollbar-hide">
-              <span className="text-[#d97757]">npx</span>
-              <span className="flex items-center">
-                <span className="text-[#F5F5F5]">@openkodaai/koda</span>
-                <span className="text-[#d97757]">@latest</span>
-              </span>
-              <span className="text-[#5b94ff]">install</span>
-            </code>
-
-            <CopyButton
-              text={INSTALL_COMMAND}
-              ariaLabel="Copy install command"
-              className="shrink-0 h-9 w-9 flex items-center justify-center rounded-[8px] text-white/55 hover:text-white hover:bg-white/[0.06] transition-colors"
-            />
+        <nav className="absolute left-1/2 top-0 z-20 -translate-x-1/2">
+          <div className="flex items-center gap-3 rounded-b-2xl bg-black px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 lg:gap-14">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="inline-flex items-center gap-1.5 text-[10px] transition-colors sm:text-xs md:text-sm"
+                style={{ color: "rgba(225, 224, 204, 0.8)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#E1E0CC")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(225, 224, 204, 0.8)")}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            ))}
           </div>
+        </nav>
 
-          <div className="mt-4 text-[13.5px] text-[#1f1c17]/65">
-            Or read the{" "}
-            <Link
-              href="/docs"
-              className="underline underline-offset-4 decoration-[#1f1c17]/40 hover:text-[#0C0C0C] hover:decoration-[#0C0C0C] transition-colors"
-            >
-              documentation
-            </Link>
-          </div>
-        </div>
-      </div>
+        <div className="absolute bottom-0 left-0 right-0 z-10 px-4 pb-2 sm:px-6 md:px-10">
+          <div className="grid grid-cols-12 items-end gap-4">
+            <div className="col-span-12 xl:col-span-6">
+              <h1
+                className="display-serif font-medium leading-[0.85] tracking-[-0.07em] text-[32vw] sm:text-[30vw] md:text-[26vw] lg:text-[22vw] xl:text-[18vw] 2xl:text-[19vw]"
+                style={{ color: "#E1E0CC" }}
+              >
+                <WordsPullUp
+                  text="koda"
+                  decoration={
+                    <span
+                      aria-hidden
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#E1E0CC",
+                        maskImage: "url(/koda-mark-white.svg)",
+                        WebkitMaskImage: "url(/koda-mark-white.svg)",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                    />
+                  }
+                />
+              </h1>
+            </div>
 
-      {/* Floating chips */}
-      <div className="absolute inset-0 z-[4] pointer-events-none hidden lg:block">
-        {chips.map((c, i) => (
-          <div
-            key={i}
-            className={`absolute ${c.position} ${c.animClass}`}
-          >
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-[14px] bg-[rgba(255,252,248,0.82)] backdrop-blur-md border border-[rgba(40,55,42,0.18)] shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_6px_18px_rgba(28,40,30,0.10)]">
-              <span className="w-7 h-7 rounded-[7px] bg-white/90 flex items-center justify-center border border-[rgba(40,55,42,0.12)]">
-                {c.icon}
-              </span>
-              <span className="text-[13.5px] font-medium text-[#0C0C0C] whitespace-nowrap">{c.label}</span>
-              <span className="w-5 h-5 rounded-full bg-[#0C0C0C] flex items-center justify-center ml-0.5">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden>
-                  <circle cx="12" cy="12" r="3.2" stroke="#fff" strokeWidth="1.6" />
-                  <path
-                    d="M12 3a9 9 0 0 1 0 18 9 9 0 0 1 0-18z"
-                    stroke="#fff"
-                    strokeWidth="1.6"
-                    strokeDasharray="2.6 2.2"
-                  />
-                </svg>
-              </span>
+            <div className="col-span-12 flex flex-col gap-5 pb-6 xl:col-span-6 xl:pb-10">
+              <motion.p
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0 }}
+                transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="text-xs sm:text-sm md:text-base"
+                style={{ lineHeight: 1.25, color: "rgba(225, 224, 204, 0.78)" }}
+              >
+                Koda is the open-source harness for multi-agent, multi-provider AI systems. A
+                control plane you actually use, durable state by default, and every runtime
+                action inspectable from day one.
+              </motion.p>
+
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0 }}
+                transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-center gap-3 rounded-full bg-black/60 backdrop-blur-md border border-white/10 p-1.5 pr-3 self-stretch w-full max-w-full"
+              >
+                <span
+                  className="shrink-0 inline-flex h-11 items-center px-4 sm:px-5 rounded-full text-[13px] sm:text-[14px] md:text-[15px] font-medium"
+                  style={{ background: "#E1E0CC", color: "#0C0C0C" }}
+                >
+                  Install Koda
+                </span>
+                <code className="min-w-0 flex-1 flex items-center gap-2 overflow-x-auto font-mono text-[12.5px] sm:text-[13.5px] md:text-[15px] whitespace-nowrap scrollbar-hide">
+                  <span className="text-[#d97757]">npx</span>
+                  <span className="flex items-center">
+                    <span className="text-[#F5F5F5]">@openkodaai/koda</span>
+                    <span className="text-[#d97757]">@latest</span>
+                  </span>
+                  <span className="text-[#5b94ff]">install</span>
+                </code>
+                <CopyButton
+                  text={INSTALL_COMMAND}
+                  ariaLabel="Copy install command"
+                  className="shrink-0 h-9 w-9 flex items-center justify-center rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0 }}
+                transition={{ duration: 0.8, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-center gap-3"
+              >
+                <Link
+                  href="/docs"
+                  className="group inline-flex items-center gap-2 self-start rounded-full py-1 pl-5 pr-1 text-sm font-medium transition-all hover:gap-3 sm:text-base"
+                  style={{ background: "#E1E0CC", color: "#0C0C0C" }}
+                >
+                  Read the docs
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
+                    <ArrowRight className="h-4 w-4" style={{ color: "#E1E0CC" }} />
+                  </span>
+                </Link>
+              </motion.div>
             </div>
           </div>
-        ))}
+        </div>
       </div>
-
-      <div className="hero-dither" />
     </section>
   );
 }

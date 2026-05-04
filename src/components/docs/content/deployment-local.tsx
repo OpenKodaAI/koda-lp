@@ -131,7 +131,7 @@ export function DeploymentLocal() {
       <p>The installer prints a URL when it's done. Complete setup there:</p>
       <ol>
         <li>
-          Open <code>http://127.0.0.1:3000/control-plane/setup</code>.
+          Open <code>http://127.0.0.1:3000/setup</code>.
         </li>
         <li>
           On loopback, the setup code is optional; the form lets you proceed

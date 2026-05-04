@@ -202,19 +202,27 @@ export function ConceptsRuntime() {
       </p>
       <ul>
         <li>
-          <code>GET /api/runtime/ready</code> — health probe.
+          <code>GET /api/runtime/ready</code> — public readiness probe.
         </li>
         <li>
           <code>GET /api/runtime/agents</code>,{" "}
-          <code>GET /api/runtime/agents/:id</code> — catalogue and detail.
+          <code>GET /api/runtime/agents/:id/overview</code> — catalogue and
+          operational overview.
         </li>
         <li>
-          <code>POST /api/runtime/tasks</code>,{" "}
-          <code>GET /api/runtime/tasks/:id</code> — submit and inspect.
+          <code>GET /api/runtime/agents/:id/tasks</code>,{" "}
+          <code>GET /api/runtime/agents/:id/sessions</code>,{" "}
+          <code>GET /api/runtime/agents/:id/schedules</code> — dashboard lists.
         </li>
         <li>
-          <code>GET /api/runtime/tasks/:id/trace</code> — the full step trace
-          (provider calls, tool calls, memory hits, retrieval results, audit).
+          <code>GET /api/runtime/agents/:id/tasks/:task_id/*</code> — task
+          events, artifacts, checkpoints, terminals, browser state, workspace
+          views, services, resources, loop state, and sessions.
+        </li>
+        <li>
+          Runtime control actions include cancel, retry, recover, pause,
+          resume, save, attach terminal/browser, pin, unpin, cleanup, and
+          process termination.
         </li>
       </ul>
 
@@ -231,7 +239,7 @@ export function ConceptsRuntime() {
           boundary when they fail.
         </li>
         <li>
-          <strong>Health, doctor, and OpenAPI</strong> surfaces are first-class
+          <strong>Health, doctor, and runtime dashboard routes</strong> are first-class
           — operators can always tell whether the runtime is healthy without
           SSH'ing into a container.
         </li>

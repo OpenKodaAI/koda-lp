@@ -8,10 +8,11 @@ export function IntegrationsProviders() {
     <>
       <p>
         Providers are the model backends Koda invokes during task execution.
-        Four are supported out of the box: Anthropic (Claude), OpenAI (GPT /
-        Codex), Google (Gemini), and Ollama (local / self-hosted). Each is
-        configured and verified through the control plane — credentials
-        never live in per-agent <code>.env</code> files.
+        The current control plane has managed verification for Anthropic
+        (Claude), OpenAI, Google (Gemini), Ollama, ElevenLabs, Perplexity,
+        Mistral, Qwen, Kimi, Groq, DeepSeek, and xAI. Each connection is
+        configured and verified through the control plane — credentials never
+        live in per-agent <code>.env</code> files.
       </p>
 
       <h2 id="connection-lifecycle">Connection lifecycle</h2>
@@ -22,8 +23,9 @@ export function IntegrationsProviders() {
 
       <StepList>
         <Step title="Configure">
-          Paste credentials (API key, optional base URL, optional org/project
-          identifiers) through the provider wizard in the dashboard, or{" "}
+          Paste credentials (API key, login session, local endpoint URL,
+          optional base URL, or optional org/project identifiers depending on
+          the provider) through the provider wizard in the dashboard, or{" "}
           <code>PUT /api/control-plane/providers/:provider_id/connection/api-key</code>.
           The control plane encrypts the credential at rest before it touches
           the database.
@@ -35,9 +37,9 @@ export function IntegrationsProviders() {
           that can't round-trip.
         </Step>
         <Step title="Set defaults">
-          Once verified, pick a default model for the provider. Agents can
-          override this per role, but the provider needs a default so agent
-          creation can complete without extra guessing.
+          Once verified, pick a default model where the provider requires one.
+          Agents can override model choices per role, but defaults make agent
+          creation predictable.
         </Step>
       </StepList>
 
@@ -60,10 +62,18 @@ export function IntegrationsProviders() {
           </thead>
           <tbody className="text-[var(--dark-text-secondary)]">
             {[
-              ["Anthropic", "API key", "Long-context reasoning, tool loops, default for planning and long-form generation."],
-              ["OpenAI", "API key (+ optional org, project)", "Codex workflows, cost-sensitive tiers, strong code generation."],
-              ["Google", "API key", "Multi-modal tasks, large context windows."],
-              ["Ollama", "Local endpoint URL", "Self-hosted or on-prem models. No API key."],
+              ["Anthropic", "API key or Claude login flow", "Claude model access and long-running agent work."],
+              ["OpenAI", "API key (+ optional org, project)", "OpenAI model access and Codex-oriented workflows."],
+              ["Google", "API key", "Gemini model access through Google's API."],
+              ["Ollama", "Local endpoint or API key", "Local/self-hosted models and Ollama cloud-style access."],
+              ["ElevenLabs", "API key", "Voice model and voice-list verification."],
+              ["Perplexity", "API key + base URL", "OpenAI-compatible model API backed by Perplexity."],
+              ["Mistral", "API key + base URL", "OpenAI-compatible model API backed by Mistral AI."],
+              ["Qwen", "API key + base URL", "OpenAI-compatible model API backed by Alibaba Qwen."],
+              ["Kimi", "API key + base URL", "OpenAI-compatible model API backed by Moonshot AI."],
+              ["Groq", "API key + base URL", "OpenAI-compatible model API backed by Groq."],
+              ["DeepSeek", "API key + base URL", "OpenAI-compatible model API backed by DeepSeek."],
+              ["xAI", "API key + base URL", "OpenAI-compatible model API backed by xAI."],
             ].map(([provider, auth, good]) => (
               <tr key={provider} className="border-b border-white/[0.04] last:border-b-0">
                 <td className="px-4 py-2 font-mono text-[12.5px] text-[var(--dark-text-primary)]">
@@ -93,6 +103,10 @@ export function IntegrationsProviders() {
           — save a local-endpoint provider (Ollama).
         </li>
         <li>
+          <code>POST /api/control-plane/providers/:provider_id/connection/login/start</code>{" "}
+          — start supported provider login flows.
+        </li>
+        <li>
           <code>POST /api/control-plane/providers/:provider_id/connection/verify</code>{" "}
           — round-trip the credential against the provider's API.
         </li>
@@ -108,18 +122,17 @@ export function IntegrationsProviders() {
 
       <h2 id="fallback">Fallback and resume</h2>
       <p>
-        When a provider is unavailable or returns an error, the runtime can
-        degrade to a smaller model or fall over to a peer provider. The tool
-        loop is resumed on the new provider with the transcript and
-        tool-loop context attached — so an agent that started on{" "}
-        <code>claude-opus</code> can finish on <code>claude-sonnet</code>{" "}
-        (or another provider entirely) without losing the work.
+        Koda records provider health and makes provider choice part of the
+        agent configuration. Runtime fallback depends on the agent's configured
+        model policy and available verified providers; do not assume fallback
+        exists until a second usable provider is connected and allowed for that
+        agent.
       </p>
 
       <Callout variant="tip" title="Configure multiple providers">
-        Fallback only works if multiple providers are configured. Connecting
-        at least two — ideally from different vendors — gives the runtime
-        somewhere to go when the first one has a bad hour.
+        Connecting at least two providers — ideally from different vendors —
+        gives operators a practical recovery path when one provider is down,
+        rate-limited, or missing a model needed by an agent.
       </Callout>
 
       <h2 id="per-agent-override">Per-agent model override</h2>

@@ -7,8 +7,8 @@ export function DocPageLayout({ page }: { page: DocPage }) {
   const headings = page.headings ?? [];
 
   return (
-    <div className="grid lg:grid-cols-[1fr_220px] gap-10">
-      <article className="min-w-0 max-w-[720px]">
+    <div className="grid min-w-0 w-full lg:grid-cols-[minmax(0,1fr)_220px] gap-10">
+      <article className="min-w-0 w-full max-w-full lg:max-w-[720px]">
         <header className="flex flex-col gap-3 mb-8">
           <span className="text-[11px] uppercase tracking-[0.14em] font-mono text-[var(--dark-text-tertiary)]">
             {page.section}
@@ -25,7 +25,7 @@ export function DocPageLayout({ page }: { page: DocPage }) {
 
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent my-8" />
 
-        <div className="docs-prose">
+        <div className="docs-prose min-w-0 max-w-full">
           <Content />
         </div>
 

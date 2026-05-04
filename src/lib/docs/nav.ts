@@ -82,7 +82,7 @@ export const docsNav: DocNavSection[] = [
       {
         title: "Providers",
         slug: "integrations/providers",
-        description: "Connecting Anthropic, OpenAI, Google, and Ollama.",
+        description: "Connecting managed, local, and OpenAI-compatible providers.",
       },
       {
         title: "Telegram",
@@ -102,12 +102,12 @@ export const docsNav: DocNavSection[] = [
       {
         title: "Runtime API",
         slug: "api-reference/runtime",
-        description: "OpenAPI surface for runtime inspection and control.",
+        description: "Operational runtime routes for inspection and control.",
       },
       {
         title: "Control-plane API",
         slug: "api-reference/control-plane",
-        description: "OpenAPI surface for provider, agent, and access management.",
+        description: "Maintained OpenAPI surface for setup, providers, agents, and access.",
       },
       {
         title: "Environment variables",

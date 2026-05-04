@@ -8,8 +8,8 @@ export function ReferenceControlPlaneAPI() {
         The control-plane API is served at <code>/api/control-plane/*</code>{" "}
         on port <code>8090</code>. It covers every operator-configurable
         surface — providers, agents, secrets, access, onboarding. The
-        authoritative contract is <code>/openapi/control-plane.json</code>;
-        this page indexes the routes by domain.
+        maintained public contract is <code>/openapi/control-plane.json</code>;
+        this page indexes the stable public routes by domain.
       </p>
 
       <Callout variant="info" title="Authentication at a glance">
@@ -30,8 +30,8 @@ export function ReferenceControlPlaneAPI() {
         <li><code>GET /auth/sessions</code> — list every active session for the owner.</li>
         <li><code>DELETE /auth/sessions/:id</code> — revoke a session.</li>
         <li><code>POST /auth/tokens</code>, <code>DELETE /auth/tokens/:id</code> — manage long-lived API tokens.</li>
+        <li><code>POST /auth/bootstrap/codes</code> — issue a new short-lived setup code from trusted automation.</li>
         <li><code>POST /auth/bootstrap/exchange</code> — redeem the short-lived setup code.</li>
-        <li><code>POST /auth/password/change</code>, <code>POST /auth/password/recover</code> — password lifecycle.</li>
       </ul>
 
       <h2 id="agents">Agents</h2>
@@ -49,29 +49,34 @@ export function ReferenceControlPlaneAPI() {
         <li><code>PUT /providers/:provider_id/connection/api-key</code> — save an API-key credential.</li>
         <li><code>PUT /providers/:provider_id/connection/local</code> — save a local-endpoint provider (Ollama).</li>
         <li><code>POST /providers/:provider_id/connection/verify</code> — round-trip verification.</li>
-        <li><code>DELETE /providers/:provider_id/connection</code> — remove the stored credential.</li>
       </ul>
 
       <h2 id="connections">Connections &amp; integrations</h2>
       <ul>
         <li><code>GET /connections/catalog</code> — every supported provider and integration.</li>
+        <li><code>GET /connections/defaults</code> — list current system-default connections.</li>
+        <li><code>GET /connections/defaults/:connection_key</code> — inspect one system-default connection.</li>
         <li><code>PUT /connections/defaults/:connection_key</code> — set the system-default connection for an integration.</li>
+        <li><code>DELETE /connections/defaults/:connection_key</code> — remove a system-default connection.</li>
         <li><code>POST /connections/defaults/:connection_key/verify</code> — verify the default round-trip.</li>
         <li><code>GET /integrations/:integration_id/health</code> — recent health snapshots.</li>
       </ul>
 
       <h2 id="system">System &amp; onboarding</h2>
       <ul>
-        <li><code>GET /system-settings</code>, <code>PATCH /system-settings</code> — global toggles (allowed users, defaults, policy).</li>
+        <li><code>GET /system-settings</code>, <code>PUT /system-settings</code> — global toggles (allowed users, defaults, policy).</li>
+        <li><code>GET /system-settings/general</code>, <code>PUT /system-settings/general</code> — general system settings used by the dashboard setup flow.</li>
         <li><code>GET /onboarding/status</code> — where the first-run flow currently is.</li>
         <li><code>POST /onboarding/bootstrap</code> — advance the bootstrap sequence.</li>
       </ul>
 
       <h2 id="skills">Skills</h2>
-      <ul>
-        <li><code>GET /skills</code> — every registered skill, the same catalogue the <code>/skill</code> command uses.</li>
-        <li><code>GET /skills/:skill_id</code> — skill metadata, frontmatter, and body.</li>
-      </ul>
+      <p>
+        Skills are managed as agent assets in the current app, not as a
+        top-level public OpenAPI group. Use the dashboard agent editor for
+        authoring and assignment, and see the Skills docs for the file and
+        runtime conventions.
+      </p>
 
       <h2 id="conventions">Conventions</h2>
       <ul>
@@ -119,7 +124,7 @@ export function ReferenceControlPlaneAPI() {
       <ul>
         <li>
           <Link href="/docs/api-reference/runtime">Runtime API</Link> — task
-          submission, tracing, and status surfaces.
+          inspection, resources, sessions, schedules, and control surfaces.
         </li>
         <li>
           <Link href="/docs/api-reference/environment">

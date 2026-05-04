@@ -13,8 +13,9 @@ npx @openkodaai/koda@latest install
 ```
 
 Providers, agents, secrets, and access live in the dashboard — no
-hand-maintained env files. Claude, GPT, Gemini, and Ollama work side by
-side; each agent picks the models and tools that fit its role.
+hand-maintained per-agent env files. The current app verifies managed
+providers including Anthropic, OpenAI, Google, Ollama, ElevenLabs,
+Perplexity, Mistral, Qwen, Kimi, Groq, DeepSeek, and xAI.
 
 ## What's inside
 
@@ -22,7 +23,7 @@ side; each agent picks the models and tools that fit its role.
 - Retrieval, episodic memory, and evidence sourcing
 - Skills — stored expert prompts exposed as agent abilities
 - Durable artifacts on Postgres + S3-compatible storage
-- OpenAPI control plane and operator dashboards
+- Maintained control-plane OpenAPI and operator dashboards
 
 ## About this repository
 

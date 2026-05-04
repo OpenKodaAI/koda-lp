@@ -51,7 +51,7 @@ export function ConceptsControlPlane() {
       <p>
         Every control-plane route sits under <code>/api/control-plane/*</code>.
         The authoritative contract is{" "}
-        <code>docs/openapi/control-plane.json</code>; the groups below cover
+        <code>/openapi/control-plane.json</code>; the groups below cover
         what operators and custom integrations interact with most.
       </p>
 
@@ -132,7 +132,7 @@ export function ConceptsControlPlane() {
       <h3 id="system">System &amp; onboarding</h3>
       <ul>
         <li>
-          <code>GET /system-settings</code>, <code>PATCH /system-settings</code>{" "}
+          <code>GET /system-settings</code>, <code>PUT /system-settings</code>{" "}
           — global toggles (allowed users, policy defaults).
         </li>
         <li>
@@ -260,12 +260,13 @@ export function ConceptsControlPlane() {
       <h2 id="dashboard">Relationship to the dashboard</h2>
       <p>
         <code>apps/web</code> is a Next.js server rendering a consumer of the
-        control-plane API. It seals the operator session token via{" "}
-        <code>lib/web-operator-session.ts</code>, enforces security headers and
-        CSP through <code>middleware.ts</code>, and renders the same data the
-        OpenAPI contract describes. There is no private dashboard API — every
-        surface is backed by a route documented in{" "}
-        <code>docs/openapi/control-plane.json</code>.
+        control-plane and runtime APIs. It keeps authentication on the server,
+        proxies requests through <code>/api/control-plane/*</code> and{" "}
+        <code>/api/runtime/*</code>, and renders setup, agent editing, runtime
+        inspection, sessions, costs, schedules, memory review, and system
+        settings from those routes. The maintained public contract lives at{" "}
+        <code>/openapi/control-plane.json</code>; dashboard-only runtime and
+        operations routes are implemented in <code>apps/web/src/app/api</code>.
       </p>
 
       <h2 id="next">Go deeper</h2>

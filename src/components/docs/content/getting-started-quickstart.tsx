@@ -37,7 +37,7 @@ export function GettingStartedQuickstart() {
 ✓ Compose stack started (web, app, postgres, seaweedfs)
 ✓ Doctor: all checks passed
 
-Dashboard:  http://127.0.0.1:3000/control-plane/setup
+Dashboard:  http://127.0.0.1:3000/setup
 Setup code: 7F-JQ2-P84`}
       />
 
@@ -53,7 +53,7 @@ Setup code: 7F-JQ2-P84`}
       <StepList>
         <Step title="Open the dashboard setup URL">
           Navigate to{" "}
-          <code>http://127.0.0.1:3000/control-plane/setup</code>. On loopback the
+          <code>http://127.0.0.1:3000/setup</code>. On loopback the
           setup code is optional by default. If the browser prompts for it, paste
           the one printed by the installer.
         </Step>
@@ -77,8 +77,9 @@ Setup code: 7F-JQ2-P84`}
       <p>
         An agent can't do useful work without a model. The home dashboard exposes
         a <strong>Connect an AI provider</strong> step on the setup checklist.
-        Open it and pick any supported provider — Anthropic, OpenAI, Google, or
-        Ollama (for local/self-hosted models).
+        Open it and pick a supported provider. The current control plane
+        verifies Anthropic, OpenAI, Google, Ollama, ElevenLabs, Perplexity,
+        Mistral, Qwen, Kimi, Groq, DeepSeek, and xAI connections.
       </p>
 
       <StepList>
@@ -127,8 +128,8 @@ Setup code: 7F-JQ2-P84`}
         </Step>
         <Step title="Publish">
           Publishing moves the agent from draft to runnable. Koda creates the
-          runtime records, registers the OpenAPI endpoints, and surfaces the
-          agent in the runtime catalogue.
+          runtime records and surfaces the agent in the runtime and dashboard
+          views.
         </Step>
       </StepList>
 
@@ -141,9 +142,9 @@ Setup code: 7F-JQ2-P84`}
           task with full inspection.
         </li>
         <li>
-          <strong>From the runtime API.</strong> Use{" "}
-          <code>/api/runtime/tasks</code> (see the{" "}
-          <Link href="/docs/api-reference/runtime">Runtime API</Link>) with the
+          <strong>From the runtime API.</strong> Use the session and task
+          endpoints described in the{" "}
+          <Link href="/docs/api-reference/runtime">Runtime API</Link> with the
           operator session cookie or a runtime token.
         </li>
       </ul>

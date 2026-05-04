@@ -18,19 +18,20 @@ export function CtaFinal() {
           Configure providers, agents, and skills from there.
         </p>
 
-        {/* Install pill — button + command + copy */}
+        {/* Install pill — same pattern as hero */}
         <div className="mt-10 mx-auto max-w-[720px]">
-          <div className="flex items-center gap-3 p-1.5 rounded-[14px] bg-black/55 border border-white/[0.08] shadow-[0_1px_0_rgba(255,255,255,0.04)_inset,0_8px_24px_rgba(0,0,0,0.35)]">
+          <div className="flex items-center gap-3 rounded-full bg-black/60 backdrop-blur-md border border-white/10 p-1.5 pr-3">
             <a
               href="https://github.com/openkodaai/koda"
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 inline-flex h-10 items-center px-4 rounded-[10px] bg-[#fffefb] text-[13.5px] font-medium text-[#0C0C0C] hover:bg-white transition-colors"
+              className="shrink-0 inline-flex h-11 items-center px-4 sm:px-5 rounded-full text-[13px] sm:text-[14px] md:text-[15px] font-medium hover:opacity-90 transition-opacity"
+              style={{ background: "#E1E0CC", color: "#0C0C0C" }}
             >
               Install Koda
             </a>
 
-            <code className="flex-1 min-w-0 flex items-center gap-2 overflow-x-auto font-mono text-[13.5px] whitespace-nowrap scrollbar-hide">
+            <code className="min-w-0 flex-1 flex items-center gap-2 overflow-x-auto font-mono text-[12.5px] sm:text-[13.5px] md:text-[15px] whitespace-nowrap scrollbar-hide">
               <span className="text-[#d97757]">npx</span>
               <span className="flex items-center">
                 <span className="text-[#F5F5F5]">@openkodaai/koda</span>
@@ -42,7 +43,7 @@ export function CtaFinal() {
             <CopyButton
               text={INSTALL_COMMAND}
               ariaLabel="Copy install command"
-              className="shrink-0 h-9 w-9 flex items-center justify-center rounded-[8px] text-white/55 hover:text-white hover:bg-white/[0.06] transition-colors"
+              className="shrink-0 h-9 w-9 flex items-center justify-center rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
             />
           </div>
 

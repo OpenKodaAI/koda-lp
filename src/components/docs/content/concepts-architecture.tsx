@@ -164,8 +164,8 @@ export function ConceptsArchitecture() {
           <code>/api/runtime/*</code> — HTTP runtime API.
         </li>
         <li>
-          <code>/docs/openapi/control-plane.json</code> — the OpenAPI contract
-          that the dashboard (and any external integration) is built against.
+          <code>/openapi/control-plane.json</code> — the maintained public
+          control-plane OpenAPI contract.
         </li>
       </ul>
 

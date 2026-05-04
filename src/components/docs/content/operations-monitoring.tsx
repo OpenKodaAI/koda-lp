@@ -13,16 +13,11 @@ export function OperationsMonitoring() {
       </p>
 
       <h2 id="health-probes">Health probes</h2>
-      <p>Three HTTP endpoints are safe to hit from any orchestrator:</p>
+      <p>Two HTTP endpoints are safe to hit from any orchestrator:</p>
       <ul>
         <li>
           <code>GET /api/runtime/ready</code> — runtime readiness. 200 when
           accepting tasks, 503 otherwise.
-        </li>
-        <li>
-          <code>GET /api/control-plane/health</code> — control-plane health.
-          Returns a component-level payload (database, object storage, gRPC
-          services).
         </li>
         <li>
           <code>GET /health</code> — lightweight liveness probe on the{" "}
@@ -32,7 +27,8 @@ export function OperationsMonitoring() {
 
       <CodeBlock
         language="bash"
-        code={`curl https://koda.example.com/api/control-plane/health | jq`}
+        code={`curl https://koda.example.com/health | jq
+curl https://koda.example.com/api/runtime/ready | jq`}
       />
 
       <h2 id="doctor">Doctor</h2>
@@ -110,7 +106,7 @@ export function OperationsMonitoring() {
       </p>
       <ul>
         <li>
-          Poll <code>/api/control-plane/health</code> with your Prometheus
+          Poll <code>/health</code> and <code>/api/runtime/ready</code> with your Prometheus
           <code> blackbox_exporter</code>.
         </li>
         <li>

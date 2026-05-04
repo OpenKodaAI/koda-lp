@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     "Gemini",
     "Ollama",
     "self-hosted AI",
-    "MIT licensed",
+    "Apache 2.0 licensed",
   ],
   category: "technology",
   creator: "OpenKoda",
@@ -122,7 +122,7 @@ const structuredData = {
     price: "0",
     priceCurrency: "USD",
   },
-  license: "https://opensource.org/licenses/MIT",
+  license: "https://opensource.org/licenses/Apache-2.0",
   codeRepository: "https://github.com/openkodaai/koda",
   programmingLanguage: ["Python", "TypeScript"],
   author: {
