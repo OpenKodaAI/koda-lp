@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -153,6 +155,8 @@ export default function RootLayout({
         className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}
       >
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
