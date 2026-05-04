@@ -35,12 +35,12 @@ export function MobileSidebarDrawer() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="lg:hidden inline-flex items-center gap-2 h-9 px-3 rounded-[8px] bg-white/[0.04] border border-white/[0.08] text-[13px] text-[var(--dark-text-secondary)] hover:bg-white/[0.06] hover:text-[var(--dark-text-primary)] transition-colors"
+        className="lg:hidden inline-flex items-center gap-2.5 h-11 px-4 rounded-[10px] bg-white/[0.04] border border-white/[0.08] text-[14.5px] text-[var(--dark-text-secondary)] hover:bg-white/[0.06] hover:text-[var(--dark-text-primary)] transition-colors"
         aria-expanded={open}
         aria-controls="docs-mobile-drawer"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-          <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+          <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
         </svg>
         Topics
       </button>
@@ -54,7 +54,7 @@ export function MobileSidebarDrawer() {
           aria-label="Documentation topics"
         >
           <div className="fixed inset-0 bg-black/70 backdrop-blur-xl" onClick={close} aria-hidden />
-          <aside className="relative w-[min(320px,82vw)] h-full bg-[var(--dark-canvas)] border-r border-white/[0.06] overflow-y-auto p-5">
+          <aside className="relative w-[min(360px,88vw)] h-full bg-[var(--dark-canvas)] border-r border-white/[0.06] overflow-y-auto p-5">
             <div className="flex items-center justify-between mb-5">
               <span className="text-[12px] uppercase tracking-[0.14em] font-mono text-[var(--dark-text-tertiary)]">
                 Topics

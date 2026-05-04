@@ -30,12 +30,12 @@ const navItems: { label: string; href: string; icon?: ReactNode }[] = [
   {
     label: "npm",
     href: "https://www.npmjs.com/package/@openkodaai/koda",
-    icon: <NpmIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />,
+    icon: <NpmIcon className="h-4 w-4 md:h-4 md:w-4" />,
   },
   {
     label: "GitHub",
     href: "https://github.com/openkodaai/koda",
-    icon: <GithubIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />,
+    icon: <GithubIcon className="h-4 w-4 md:h-4 md:w-4" />,
   },
   { label: "Foundations", href: "#foundations" },
 ];
@@ -62,14 +62,14 @@ export function Hero() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/70" />
 
         <nav className="absolute left-1/2 top-0 z-20 -translate-x-1/2">
-          <div className="flex items-center gap-3 rounded-b-2xl bg-black px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 lg:gap-14">
+          <div className="flex items-center gap-4 rounded-b-2xl bg-black px-5 py-3 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 md:py-2 lg:gap-14">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center gap-1.5 text-[10px] transition-colors sm:text-xs md:text-sm"
+                className="inline-flex min-h-8 items-center gap-1.5 text-[13px] transition-colors sm:text-xs md:min-h-0 md:text-sm"
                 style={{ color: "rgba(225, 224, 204, 0.8)" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#E1E0CC")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(225, 224, 204, 0.8)")}
